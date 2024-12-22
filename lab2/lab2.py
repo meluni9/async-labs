@@ -1,8 +1,13 @@
 import asyncio
 
 
-async def async_filter(func, arr):
-    return [item for item in arr if await func(item)]
+async def parallel_filter(func, arr):
+    tasks = []
+    print(f"Processing data...")
+    for item in arr:
+        tasks.append(asyncio.create_task(func(item)))
+    results = await asyncio.gather(*tasks)
+    return [item for item, result in zip(arr, results) if result]
 
 
 async def is_upper(word):
@@ -28,9 +33,9 @@ async def main():
     list3 = [3, 5, 6, (3, 'e'), 8]
 
     tasks = [
-        asyncio.create_task(async_filter(is_upper, list1)),
-        asyncio.create_task(async_filter(is_two_power, list2)),
-        asyncio.create_task(async_filter(is_even, list3))]
+        asyncio.create_task(parallel_filter(is_upper, list1)),
+        asyncio.create_task(parallel_filter(is_two_power, list2)),
+        asyncio.create_task(parallel_filter(is_even, list3))]
 
     results = await asyncio.gather(*tasks)
 
