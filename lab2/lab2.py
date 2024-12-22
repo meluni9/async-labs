@@ -1,21 +1,8 @@
 import asyncio
 
 
-async def parallel_filter(func, arr):
-    tasks = []
-    print(f"Processing data...")
-    for item in arr:
-        tasks.append(asyncio.create_task(func(item)))
-    results = await asyncio.gather(*tasks)
-    return [item for item, result in zip(arr, results) if result]
-
 async def async_filter(func, arr):
-    result = []
-    print(f"Processing data...")
-    for item in arr:
-        if await func(item):
-            result.append(item)
-    return result
+    return [item for item in arr if await func(item)]
 
 
 async def is_upper(word):
@@ -40,16 +27,16 @@ async def main():
     list2 = [-1, 0, 1, 'e', 2, 3, 4, 5, 6, 7, 'b', 8, 9, 10]
     list3 = [3, 5, 6, (3, 'e'), 8]
 
-    print("Task 2: Parallel filtering with asyncio")
+    tasks = [
+        asyncio.create_task(async_filter(is_upper, list1)),
+        asyncio.create_task(async_filter(is_two_power, list2)),
+        asyncio.create_task(async_filter(is_even, list3))]
 
-    print("\nFiltering uppercase strings from list1:")
-    print(await parallel_filter(is_upper, list1))
+    results = await asyncio.gather(*tasks)
 
-    print("\nFiltering powers of two from list2:")
-    print(await parallel_filter(is_two_power, list2))
-
-    print("\nFiltering even numbers from list3:")
-    print(await parallel_filter(is_even, list3))
+    print("Uppercase strings in list1:", results[0])
+    print("Powers of two in list2:", results[1])
+    print("Even numbers in list3:", results[2])
 
 
 if __name__ == "__main__":
