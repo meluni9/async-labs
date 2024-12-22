@@ -46,4 +46,5 @@ async def main():
     print(await async_filter(is_even, list3))
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
