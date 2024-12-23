@@ -1,14 +1,25 @@
-# Task 3: Integrate Cancellable approach
+# Task 3: Integrate AbortController
 
 import asyncio
 
-async def async_filter(func, arr, cancel_event):
+class AbortController:
+    def __init__(self):
+        self._cancel_event = asyncio.Event()
+
+    def cancel(self):
+        self._cancel_event.set()
+
+    async def wait_for_cancel(self):
+        await self._cancel_event.wait()
+
+    def is_cancelled(self):
+        return self._cancel_event.is_set()
+
+
+async def async_filter(func, arr, abort_controller):
     print("Processing data...")
     tasks = []
     for item in arr:
-        if cancel_event.is_set():
-            print("Cancel event detected. Stopping further tasks.")
-            break
         task = asyncio.create_task(func(item))
         tasks.append((item, task))
 
@@ -20,7 +31,7 @@ async def async_filter(func, arr, cancel_event):
                 results.append(item)
         except Exception as e:
             print(f"{e} error encountered, cancelling further tasks in current list operation...")
-            cancel_event.set()
+            abort_controller.cancel()
             for _, t in tasks:
                 if not t.done():
                     t.cancel()
@@ -52,15 +63,19 @@ async def is_even(num):
     return num % 2 == 0
 
 
-async def process_all_asynchronously(cancel_event):
+async def process_all_asynchronously():
     list1 = ['KPI', 'Kpi', 'KPI', 'kpI', 'kPi', 'KPI']
     list2 = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 'b', 8, 9, 10]
     list3 = [3, 5, 6, 'e', 8]
 
+    abort_controller1 = AbortController()
+    abort_controller2 = AbortController()
+    abort_controller3 = AbortController()
+
     tasks = [
-        asyncio.create_task(async_filter(is_upper, list1, cancel_event)),
-        asyncio.create_task(async_filter(is_two_power, list2, cancel_event)),
-        asyncio.create_task(async_filter(is_even, list3, cancel_event)),
+        asyncio.create_task(async_filter(is_upper, list1, abort_controller1)),
+        asyncio.create_task(async_filter(is_two_power, list2, abort_controller2)),
+        asyncio.create_task(async_filter(is_even, list3, abort_controller3)),
     ]
 
     try:
@@ -76,14 +91,14 @@ async def process_all_asynchronously(cancel_event):
 
 
 async def main():
-    print("Task 3: Integration of Cancellable approach\n")
+    print("Task 3: Integration of AbortController\n")
 
-    cancel_event = asyncio.Event()
-    task = asyncio.create_task(process_all_asynchronously(cancel_event))
+    task = asyncio.create_task(process_all_asynchronously())
+    abort_controller = AbortController()
 
     try:
         await asyncio.sleep(1.5)
-        cancel_event.set()
+        abort_controller.cancel()
         await task
     except asyncio.CancelledError:
         print("The main task has been canceled gracefully.")
