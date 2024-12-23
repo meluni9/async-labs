@@ -1,4 +1,4 @@
-# Reactive message-based communication between entities
+# Task 5: Reactive message-based communication between entities with EventEmitter realization
 
 import asyncio
 
@@ -49,24 +49,25 @@ async def async_filter(func, emitter, cancel_event):
     return filtered_items
 
 
-async def process_data():
-    cancel_event = asyncio.Event()
+async def process_data(cancel_event):
     emitter = EventEmitter()
 
     data_source_task = asyncio.create_task(async_data_source(emitter))
 
-    try:
-        filtered_data = await async_filter(is_even, emitter, cancel_event)
-        print(f"\nFiltered data: {filtered_data}\n")
-    except asyncio.CancelledError:
-        print("Processing was canceled.")
-    finally:
-        await data_source_task
+    filtered_data = await async_filter(is_even, emitter, cancel_event)
+    print(f"\nFiltered data: {filtered_data}\n")
 
 
 async def main():
     print("Task 5: Reactive message-based communication between entities\n")
-    await process_data()
+
+    cancel_event = asyncio.Event()
+    task = asyncio.create_task(process_data(cancel_event))
+
+    try:
+        await task
+    except asyncio.CancelledError:
+        print("The main task has been canceled gracefully.")
 
 
 if __name__ == "__main__":
