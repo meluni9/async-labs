@@ -1,5 +1,6 @@
-import asyncio
+# Task 4: Ongoing processing of large data sets that do not fit in memory
 
+import asyncio
 
 async def async_data_source(batch_size=20):
     data = range(1, 1001)
@@ -27,8 +28,13 @@ async def process_large_data():
 
 
 async def main():
-    await process_large_data()
+    print("Task 4: Ongoing processing of large data sets that do not fit in memory")
+    task = asyncio.create_task(process_large_data())
 
+    try:
+        await task
+    except asyncio.CancelledError:
+        print("The main task has been canceled gracefully.")
 
 if __name__ == "__main__":
     asyncio.run(main())
