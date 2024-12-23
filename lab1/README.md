@@ -135,12 +135,12 @@ if __name__ == "__main__":
 
 ## Testing program
 
-### Test 1
-<img src="./media/lab_1_test_1.png">
+### lab0.py
+<img src="./media/1.png">
 
-### Test 2
-<img src="./media/lab_1_test_2.png">
+### lab1.py
+<img src="./media/2.png">
 
-### Test 3
-<img src="./media/lab_1_test_3.png">
+### lab1_debounce.py
+<img src="./media/3.png">
 

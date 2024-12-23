@@ -72,11 +72,9 @@ if __name__ == "__main__":
 
 ## Testing program
 
-### Test 1
-<img src="./media/lab_1_test_1.png">
+### lab5.py
+<img src="./media/1.png">
 
-### Test 2
-<img src="./media/lab_1_test_2.png">
+### lab5.py (cancelled)
+<img src="./media/2.png">
 
-### Test 3
-<img src="./media/lab_1_test_3.png">

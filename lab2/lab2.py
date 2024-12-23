@@ -28,6 +28,7 @@ async def is_even(num):
 
 
 async def main():
+    print("Task 2: Parallel filtering")
     list1 = ['KPI', 'Kpi', 2, 'KPI', 'kpI', (3, 4), 'kPi', 'KPI']
     list2 = [-1, 0, 1, 'e', 2, 3, 4, 5, 6, 7, 'b', 8, 9, 10]
     list3 = [3, 5, 6, (3, 'e'), 8]
@@ -40,7 +41,6 @@ async def main():
 
     results = await asyncio.gather(*tasks)
 
-    print("Task 2: Parallel filtering")
     print("Uppercase strings in list1:", results[0])
     print("Powers of two in list2:", results[1])
     print("Even numbers in list3:", results[2])
