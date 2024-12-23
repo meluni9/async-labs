@@ -1,11 +1,11 @@
+# Task 2: Write use cases for the async-await
+# Add support for parallelism
+
 import asyncio
 
-
 async def parallel_filter(func, arr):
-    tasks = []
     print(f"Processing data...")
-    for item in arr:
-        tasks.append(asyncio.create_task(func(item)))
+    tasks = [asyncio.create_task(func(item)) for item in arr]
     results = await asyncio.gather(*tasks)
     return [item for item, result in zip(arr, results) if result]
 
@@ -35,10 +35,12 @@ async def main():
     tasks = [
         asyncio.create_task(parallel_filter(is_upper, list1)),
         asyncio.create_task(parallel_filter(is_two_power, list2)),
-        asyncio.create_task(parallel_filter(is_even, list3))]
+        asyncio.create_task(parallel_filter(is_even, list3))
+    ]
 
     results = await asyncio.gather(*tasks)
 
+    print("Task 2: Parallel filtering")
     print("Uppercase strings in list1:", results[0])
     print("Powers of two in list2:", results[1])
     print("Even numbers in list3:", results[2])

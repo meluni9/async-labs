@@ -24,13 +24,13 @@ def main():
     list3 = [3, 5, 6, (3, 'e'), 8]
 
     print("Task 0: Synchronous filtering")
-    print("\nFiltering uppercase strings from list1:")
+    print("\nUppercase strings in list1:")
     print(sync_filter(is_upper, list1))
 
-    print("\nFiltering powers of two from list2:")
+    print("\nPowers of two in list2:")
     print(sync_filter(is_two_power, list2))
 
-    print("\nFiltering even numbers from list3:")
+    print("\nEven numbers in list3:")
     print(sync_filter(is_even, list3))
 
 

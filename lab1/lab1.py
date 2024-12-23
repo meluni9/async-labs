@@ -1,16 +1,10 @@
 # Task 1: Prepare filter callback based async counterpart
 # Prepare demo cases for the usage
-# Add support for debounce (if the task took less then X time to complete - add an execution delay)
 
 import asyncio
 
 async def async_filter(func, arr):
-    result = []
-    print(f"Processing data...")
-    for item in arr:
-        if await func(item):
-            result.append(item)
-    return result
+    return [item for item in arr if await func(item)]
 
 
 async def is_upper(word):
@@ -35,14 +29,14 @@ async def main():
     list2 = [-1, 0, 1, 'e', 2, 3, 4, 5, 6, 7, 'b', 8, 9, 10]
     list3 = [3, 5, 6, (3, 'e'), 8]
 
-    print("Task 1: Sequential Filtering without Debounce")
-    print("\nFiltering uppercase strings from list1:")
+    print("Task 1: Sequential filtering without debounce")
+    print("\nUppercase strings in list1:")
     print(await async_filter(is_upper, list1))
 
-    print("\nFiltering powers of two from list2:")
+    print("\nPowers of two in list2:")
     print(await async_filter(is_two_power, list2))
 
-    print("\nFiltering even numbers from list3:")
+    print("\nEven numbers in list3:")
     print(await async_filter(is_even, list3))
 
 
