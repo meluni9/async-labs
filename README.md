@@ -8,12 +8,12 @@ This repository contains various tasks designed to demonstrate asynchronous prog
 
 | Section           | Description                    |
 |-------------------|--------------------------------|
-| [Home Page](../)  | Overview of the repository     |
-| [Lab 1](../lab1/) | Files and solutions for Task 1 |
-| [Lab 2](../lab2/) | Files and solutions for Task 2 |
-| [Lab 3](../lab3/) | Files and solutions for Task 3 |
-| [Lab 4](../lab4/) | Files and solutions for Task 4 |
-| [Lab 5](../lab5/) | Files and solutions for Task 5 |
+| [Home Page](./)  | Overview of the repository     |
+| [Lab 1](./lab1/) | Files and solutions for Task 1 |
+| [Lab 2](./lab2/) | Files and solutions for Task 2 |
+| [Lab 3](./lab3/) | Files and solutions for Task 3 |
+| [Lab 4](./lab4/) | Files and solutions for Task 4 |
+| [Lab 5](./lab5/) | Files and solutions for Task 5 |
 
 
 ## All tasks adaptation for python
