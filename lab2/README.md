@@ -1,9 +1,12 @@
+[🏠 Home Page](../) | [📝 Lab 1](../lab1/) | [📝 Lab 2](../lab2/) | [📝 Lab 3](../lab3/) | [📝 Lab 4](../lab4/) | [📝 Lab 5](../lab5/)
+
 # Lab 2: Async-Await alternative
 ## Description:
 In this lab, you need to implement an alternative for asynchronous functions using async-await.
 ## Implementation:
+
 ### [lab2.py](./lab2.py): Implementation of the solution based on async-await.
-Added support for parallel execution.
+Implements parallel filtering using `asyncio.gather`. Demonstrates use cases for async/await patterns.
 ```python
 import asyncio
 
@@ -45,6 +48,7 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
 ## Testing program
 
 ### Test 1

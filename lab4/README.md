@@ -1,8 +1,13 @@
+[🏠 Home Page](../) | [📝 Lab 1](../lab1/) | [📝 Lab 2](../lab2/) | [📝 Lab 3](../lab3/) | [📝 Lab 4](../lab4/) | [📝 Lab 5](../lab5/)
+
 # Lab 4: Handling Large Data Sets
 ## Description:
-In this lab, you will work with large data sets that do not fit in memory using streams or AsyncIterator.
+In this lab, you will work with large data sets that do not fit in memory using streams or chunks.
 ## Implementation:
+
 ### [lab4_generator.py](./lab4_generator.py): Example using generators for asynchronous data processing.
+Processes large datasets using async iterators. 
+Provides error handling for individual items or chunks.
 ```python
 import asyncio
 
@@ -49,7 +54,10 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
 ### [lab4_chunks.py](./lab4_chunks.py): Using chunks for processing large data sets.
+Processes data in chunks to handle memory limitations.
+Provides error handling for individual items or chunks.
 ```python
 import asyncio
 
@@ -116,6 +124,7 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
 ## Testing program
 
 ### Test 1

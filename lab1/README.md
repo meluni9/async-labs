@@ -1,8 +1,12 @@
+[🏠 Home Page](../) | [📝 Lab 1](../lab1/) | [📝 Lab 2](../lab2/) | [📝 Lab 3](../lab3/) | [📝 Lab 4](../lab4/) | [📝 Lab 5](../lab5/)
+
 # Lab 1: Asynchronous Alternative for Filter function
 ## Description:
-In this lab, you need to choose one of the array functions (e.g., `map`, `filter`, `find`, etc.) and implement its asynchronous counterpart, then demonstrate its usage with different cases.
+In this lab, you need to choose one of the array functions (e.g., `map`, `filter`, `find`, etc.) and develop an asynchronous version of this function, demonstrate showcases and add support for debounce.
 ## Implementation:
+
 ### [lab0.py](./lab0.py): Example use cases for synchronous filter function.
+Demonstrates a synchronous implementation of a filter function with example cases such as filtering uppercase strings, powers of two, and even numbers.
 ```python
 def sync_filter(func, arr):
     return [item for item in arr if func(item)]
@@ -36,8 +40,9 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-### [lab1.py](./lab1.py): Implementation of the asynchronous counterpart for array functions.
 
+### [lab1.py](./lab1.py): Implementation of the asynchronous counterpart for filter functions.
+Uses async/await for asynchronous operations.
 ```python
 import asyncio
 
@@ -78,8 +83,7 @@ if __name__ == "__main__":
 ```
 
 ### [lab1_debounce.py](./lab1_debounce.py): Demonstration of adding debounce (delay) to asynchronous execution.
-Added debounce support, which adds extra delay if the execution time is less than a specified limit.
-
+Has a debounce support, which adds extra delay if the execution time is less than a specified limit.
 ```python
 import asyncio
 from time import perf_counter
@@ -128,6 +132,7 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
 ## Testing program
 
 ### Test 1

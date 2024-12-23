@@ -1,8 +1,13 @@
+[🏠 Home Page](../) | [📝 Lab 1](../lab1/) | [📝 Lab 2](../lab2/) | [📝 Lab 3](../lab3/) | [📝 Lab 4](../lab4/) | [📝 Lab 5](../lab5/)
+
 # Lab 3: AbortController and Cancellation
 ## Description:
 In this lab, you need to implement `AbortController` or other approach for canceling asynchronous operations.
 ## Implementation:
+
 ### [lab3.py](./lab3.py): Cancellation implementation.
+Cancellable tasks using `asyncio.Event`. Handles task cancellation gracefully.
+Includes error handling to manage unexpected exceptions.
 ```python
 import asyncio
 
@@ -86,7 +91,10 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
 ### [lab3_abort_controller.py](./lab3_abort_controller.py): Implementation of canceling asynchronous operations using AbortController.
+Implements a custom `AbortController`. Handles task cancellation gracefully.
+Includes error handling to manage unexpected exceptions.
 ```python
 import asyncio
 
@@ -183,6 +191,7 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
 ## Testing program
 
 ### Test 1

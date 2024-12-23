@@ -1,8 +1,13 @@
+[🏠 Home Page](../) | [📝 Lab 1](../lab1/) | [📝 Lab 2](../lab2/) | [📝 Lab 3](../lab3/) | [📝 Lab 4](../lab4/) | [📝 Lab 5](../lab5/)
+
 # Lab 5: Reactive Programming using Observable/EventEmitter
 ## Description: 
-In this lab, you will implement a reactive programming system with EventEmitter.
+In this lab, you will implement a reactive message-based communication using an EventEmitter.
 ## Implementation:
+Implements an `EventEmitter` for reactive programming. 
+Demonstrates message-based communication between asynchronous entities.
 ### [lab5.py](./lab5.py): Main implementation for event handling using EventEmitter.
+
 ```python
 import asyncio
 
@@ -64,6 +69,7 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
 ## Testing program
 
 ### Test 1
