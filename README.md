@@ -9,6 +9,7 @@ This repository contains various tasks designed to demonstrate asynchronous prog
 | Section           | Description                    |
 |-------------------|--------------------------------|
 | [Home Page](../)  | Overview of the repository     |
+| [Lab 0](../lab0/) | Files and solutions for Task 0 |
 | [Lab 1](../lab1/) | Files and solutions for Task 1 |
 | [Lab 2](../lab2/) | Files and solutions for Task 2 |
 | [Lab 3](../lab3/) | Files and solutions for Task 3 |
