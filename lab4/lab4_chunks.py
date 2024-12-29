@@ -33,7 +33,6 @@ async def async_filter_chunk(func, chunk, cancel_event):
             # cancel_event.set()  # Stop further chunk processing globally
             break
 
-    # Cancel remaining tasks in the chunk
     for task in tasks:
         if not task.done():
             task.cancel()

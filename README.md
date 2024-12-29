@@ -6,22 +6,19 @@ This repository contains various tasks designed to demonstrate asynchronous prog
 
 ## Repository Contents
 
-| Section          | Description                    |
-|------------------|--------------------------------|
-| [Home Page](./)  | Overview of the repository     |
-| [Lab 0](./lab0/) | Files and solutions for Task 0 |
-| [Lab 1](./lab1/) | Files and solutions for Task 1 |
-| [Lab 2](./lab2/) | Files and solutions for Task 2 |
-| [Lab 3](./lab3/) | Files and solutions for Task 3 |
-| [Lab 4](./lab4/) | Files and solutions for Task 4 |
-| [Lab 5](./lab5/) | Files and solutions for Task 5 |
+| Section          | Description                      |
+|------------------|----------------------------------|
+| [Home Page](./)  | Overview of the repository       |
+| [Lab 2](lab1_2/) | Files and solutions for Task 1+2 |
+| [Lab 3](./lab3/) | Files and solutions for Task 3   |
+| [Lab 4](./lab4/) | Files and solutions for Task 4   |
+| [Lab 5](./lab5/) | Files and solutions for Task 5   |
 
 
 ## All tasks adaptation for python
 
   Task 0
   * Prepare GitHub repo for Tasks
-  * Prepare synchronous adaptation for Task 1
 
   Task 1
   * Choose array fn (map/filter/filterMap/some/find/findIndex) -> chosen ```filter``` fn 
