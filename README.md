@@ -6,13 +6,13 @@ This repository contains various tasks designed to demonstrate asynchronous prog
 
 ## Repository Contents
 
-| Section          | Description                      |
-|------------------|----------------------------------|
-| [Home Page](./)  | Overview of the repository       |
-| [Lab 2](lab1_2/) | Files and solutions for Task 1+2 |
-| [Lab 3](./lab3/) | Files and solutions for Task 3   |
-| [Lab 4](./lab4/) | Files and solutions for Task 4   |
-| [Lab 5](./lab5/) | Files and solutions for Task 5   |
+| Section            | Description                      |
+|--------------------|----------------------------------|
+| [Home Page](./)    | Overview of the repository       |
+| [Lab 1+2](lab1_2/) | Files and solutions for Task 1+2 |
+| [Lab 3](./lab3/)   | Files and solutions for Task 3   |
+| [Lab 4](./lab4/)   | Files and solutions for Task 4   |
+| [Lab 5](./lab5/)   | Files and solutions for Task 5   |
 
 
 ## All tasks adaptation for python
