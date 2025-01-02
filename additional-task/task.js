@@ -13,9 +13,11 @@ const createPrimeTask = (target) => {
     return {
         init: () => {
             console.log("Task initialized");
+            n = 0;
+            currentNumber = 1;
         },
 
-        iterate: () => {
+        iterate: async () => {
             currentNumber++;
             if (isPrime(currentNumber)) {
                 n++;
@@ -24,50 +26,103 @@ const createPrimeTask = (target) => {
             return n === target;
         },
 
-        finalize: () => {
+        finalize: async () => {
             console.log(`Task completed! Found the ${target}th prime: ${currentNumber}`);
         },
     };
 };
 
-const runIterations = (task, options) => {
-    const { maxIterations = 10 } = options;
-    const startTime = Date.now();
 
-    for (let i = 0; i < maxIterations; i++) {
-        const done = task.iterate();
-        if (done) return true;
+const runIterations = async (task, options, stats) => {
+    const batchStartTime = Date.now();
+    let batchIterations = 0;
 
-        const elapsed = Date.now() - startTime;
-        console.log(`Iteration ${i + 1}, elapsed time: ${elapsed}ms`);
-    }
-    return false;
-};
+    console.log("Starting new batch of iterations...");
 
+    while (true) {
+        const done = await task.iterate();
+        stats.iterations++;
+        batchIterations++;
 
-const asyncify = (task, options) => {
-    task.init();
+        const elapsedTime = Date.now() - batchStartTime;
 
-    const execute = () => {
-        const completed = runIterations(task, options);
-        if (completed) {
-            console.log("Task completed!");
-        } else {
-            console.log("Continuing task...");
-            setTimeout(execute, 0);
+        console.log(
+            `Iteration ${stats.iterations}, Batch iterations: ${batchIterations}, Elapsed time: ${elapsedTime}ms`
+        );
+
+        if (
+            done ||
+            batchIterations >= options.maxIterations ||
+            elapsedTime >= options.minDuration
+        ) {
+            if (done) console.log("Task finished during batch execution.");
+            return done || elapsedTime >= options.maxDuration;
         }
-    };
-
-    execute();
+    }
 };
+
+
+
+const asyncify = async (task, options) => {
+    const {
+        minIterations = 5,
+        maxIterations = 10,
+        minDuration = 1000,
+        maxDuration = 60000,
+        timeout = 60000,
+    } = options;
+
+    const stats = { iterations: 0 };
+
+    await task.init();
+
+    console.log("Asyncify started with options:", options);
+
+    return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+            console.error("Task timed out!");
+            reject(new Error("Task timed out"));
+        }, timeout);
+
+        const execute = async () => {
+            console.log("Executing task iterations...");
+
+            const done = await runIterations(task, options, stats);
+
+            if (done) {
+                clearTimeout(timer);
+                await task.finalize();
+                resolve(`Task completed in ${stats.iterations} iterations.`);
+                return;
+            }
+
+            if (stats.iterations < minIterations) {
+                console.log("Not enough iterations, continuing immediately...");
+                setTimeout(execute, 0);
+            } else {
+                console.log("Taking a short pause before next batch...");
+                setTimeout(execute, 0);
+            }
+        };
+
+        execute();
+    });
+};
+
 
 (async () => {
-  const task = createPrimeTask(100);
-  const options = { minIterations: 5, maxIterations: 10, timeout: 30 };
+    const task = createPrimeTask(100);
 
-  try {
-    await asyncify(task, options);
-  } catch (error) {
-    console.error("Error:", error.message);
-  }
+    try {
+        const result = await asyncify(task, {
+            minIterations: 5,
+            maxIterations: 15,
+            minDuration: 20,
+            maxDuration: 100,
+            timeout: 30,
+        });
+        console.log(result);
+    } catch (error) {
+        console.error("Error:", error.message);
+    }
 })();
