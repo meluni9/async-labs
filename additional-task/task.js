@@ -30,13 +30,49 @@ const createPrimeTask = (target) => {
     };
 };
 
-const task = createPrimeTask(3);
+const runIterations = (task, options) => {
+    const { maxIterations = 10 } = options;
+    const startTime = Date.now();
 
-task.init();
+    for (let i = 0; i < maxIterations; i++) {
+        const done = task.iterate();
+        if (done) return true;
 
-let isDone = false;
-while (!isDone) {
-    isDone = task.iterate();
+        const elapsed = Date.now() - startTime;
+        console.log(`Iteration ${i + 1}, elapsed time: ${elapsed}ms`);
+    }
+    return false;
+};
+
+
+const asyncify = (task, options) => {
+    task.init();
+
+    const execute = () => {
+        const completed = runIterations(task, options);
+        if (completed) {
+            console.log("Task completed!");
+        } else {
+            console.log("Continuing task...");
+            setTimeout(execute, 0);
+        }
+    };
+
+    execute();
+};
+
+const testTask = createPrimeTask(5);
+testTask.init();
+
+let iterations = 0;
+while (!testTask.iterate()) {
+    iterations++;
+    if (iterations > 100) {
+        console.log("Not enough iterations");
+        break;
+    }
 }
+testTask.finalize();
 
-task.finalize();
+const asyncTask = createPrimeTask(10);
+asyncify(asyncTask, { maxIterations: 5 });
