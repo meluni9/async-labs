@@ -61,18 +61,13 @@ const asyncify = (task, options) => {
     execute();
 };
 
-const testTask = createPrimeTask(5);
-testTask.init();
+(async () => {
+  const task = createPrimeTask(100);
+  const options = { minIterations: 5, maxIterations: 10, timeout: 30 };
 
-let iterations = 0;
-while (!testTask.iterate()) {
-    iterations++;
-    if (iterations > 100) {
-        console.log("Not enough iterations");
-        break;
-    }
-}
-testTask.finalize();
-
-const asyncTask = createPrimeTask(10);
-asyncify(asyncTask, { maxIterations: 5 });
+  try {
+    await asyncify(task, options);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+})();
