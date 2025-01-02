@@ -88,7 +88,6 @@ const asyncify = async (task, options) => {
 
         const execute = async () => {
             console.log("Executing task iterations...");
-
             const batchStartTime = Date.now();
             const done = await runIterations(task, options, stats, batchStartTime);
 
@@ -104,7 +103,7 @@ const asyncify = async (task, options) => {
                 setTimeout(execute, 0);
             } else {
                 console.log("Taking a short pause before next batch...");
-                setTimeout(execute, 0);
+                setTimeout(execute, 50);
             }
         };
 
@@ -119,9 +118,9 @@ const asyncify = async (task, options) => {
         const result = await asyncify(task, {
             minIterations: 5,
             maxIterations: 15,
-            minDuration: 20,
-            maxDuration: 100,
-            timeout: 30,
+            minDuration: 100,
+            maxDuration: 500,
+            timeout: 10000,
         });
         console.log(result);
     } catch (error) {
