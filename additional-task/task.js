@@ -32,10 +32,9 @@ const createPrimeTask = (target) => {
     };
 };
 
-
-const runIterations = async (task, options, stats) => {
-    const batchStartTime = Date.now();
+const runIterations = async (task, options, stats, batchStartTime) => {
     let batchIterations = 0;
+    const { minDuration, maxDuration } = options;
 
     console.log("Starting new batch of iterations...");
 
@@ -45,23 +44,26 @@ const runIterations = async (task, options, stats) => {
         batchIterations++;
 
         const elapsedTime = Date.now() - batchStartTime;
-
         console.log(
             `Iteration ${stats.iterations}, Batch iterations: ${batchIterations}, Elapsed time: ${elapsedTime}ms`
         );
 
+        if (elapsedTime < minDuration) {
+            console.log(`Waiting to meet minDuration of ${minDuration}ms...`);
+            const waitTime = minDuration - elapsedTime;
+            await new Promise(resolve => setTimeout(resolve, waitTime));
+        }
+
         if (
             done ||
             batchIterations >= options.maxIterations ||
-            elapsedTime >= options.minDuration
+            elapsedTime >= maxDuration
         ) {
             if (done) console.log("Task finished during batch execution.");
-            return done || elapsedTime >= options.maxDuration;
+            return done || elapsedTime >= maxDuration;
         }
     }
 };
-
-
 
 const asyncify = async (task, options) => {
     const {
@@ -87,7 +89,8 @@ const asyncify = async (task, options) => {
         const execute = async () => {
             console.log("Executing task iterations...");
 
-            const done = await runIterations(task, options, stats);
+            const batchStartTime = Date.now();
+            const done = await runIterations(task, options, stats, batchStartTime);
 
             if (done) {
                 clearTimeout(timer);
@@ -108,7 +111,6 @@ const asyncify = async (task, options) => {
         execute();
     });
 };
-
 
 (async () => {
     const task = createPrimeTask(100);
