@@ -6,4 +6,37 @@ const isPrime = (n) => {
     return true;
 };
 
-console.log(isPrime(67))
+const createPrimeTask = (target) => {
+    let n = 0;
+    let currentNumber = 1;
+
+    return {
+        init: () => {
+            console.log("Task initialized");
+        },
+
+        iterate: () => {
+            currentNumber++;
+            if (isPrime(currentNumber)) {
+                n++;
+                console.log(`Prime found: ${currentNumber}, count: ${n}`);
+            }
+            return n === target;
+        },
+
+        finalize: () => {
+            console.log(`Task completed! Found the ${target}th prime: ${currentNumber}`);
+        },
+    };
+};
+
+const task = createPrimeTask(3);
+
+task.init();
+
+let isDone = false;
+while (!isDone) {
+    isDone = task.iterate();
+}
+
+task.finalize();
