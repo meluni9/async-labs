@@ -7,23 +7,25 @@ const isPrime = (n) => {
 };
 
 const createPrimeTask = (target) => {
-    let n = 0;
+    let primeCount = 0;
     let currentNumber = 1;
 
     return {
         init: () => {
             console.log("Task initialized");
-            n = 0;
+            primeCount = 0;
             currentNumber = 1;
         },
 
         iterate: async () => {
-            currentNumber++;
-            if (isPrime(currentNumber)) {
-                n++;
-                console.log(`Prime found: ${currentNumber}, count: ${n}`);
+            while (++currentNumber) {
+                if (isPrime(currentNumber)) {
+                    primeCount++;
+                    console.log(`Prime found: ${currentNumber}, count: ${primeCount}`);
+                    break;
+                }
             }
-            return n === target;
+            return primeCount === target;
         },
 
         finalize: async () => {
@@ -33,8 +35,8 @@ const createPrimeTask = (target) => {
 };
 
 const runIterations = async (task, options, stats, batchStartTime) => {
-    let batchIterations = 0;
     const { minDuration, maxDuration } = options;
+    let batchIterations = 0;
 
     console.log("Starting new batch of iterations...");
 
@@ -51,16 +53,12 @@ const runIterations = async (task, options, stats, batchStartTime) => {
         if (elapsedTime < minDuration) {
             console.log(`Waiting to meet minDuration of ${minDuration}ms...`);
             const waitTime = minDuration - elapsedTime;
-            await new Promise(resolve => setTimeout(resolve, waitTime));
+            await new Promise((resolve) => setTimeout(resolve, waitTime));
         }
 
-        if (
-            done ||
-            batchIterations >= options.maxIterations ||
-            elapsedTime >= maxDuration
-        ) {
+        if (done || batchIterations >= options.maxIterations || elapsedTime >= maxDuration) {
             if (done) console.log("Task finished during batch execution.");
-            return done || elapsedTime >= maxDuration;
+            return done;
         }
     }
 };
