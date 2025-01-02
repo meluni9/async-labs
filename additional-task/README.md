@@ -14,8 +14,7 @@ This project provides a solution to asynchronously compute prime numbers using a
 
 ## Implementation:
 
-### [task.js](./lab1_2.py): The script computes the nth prime number asynchronously. You can configure the parameters for iteration and timeout to suit your needs.
-Implements parallel filtering using `asyncio.gather`. Demonstrates use cases for async/await patterns.
+### [task.js](./task.js): The script computes the nth prime number asynchronously. You can configure the parameters for iteration and timeout to suit your needs.
 ```js
 const isPrime = (n) => {
     if (n < 2) return false;
