@@ -22,10 +22,9 @@ const createPrimeTask = (target) => {
                 if (isPrime(currentNumber)) {
                     primeCount++;
                     console.log(`Prime found: ${currentNumber}, count: ${primeCount}`);
-                    break;
+                    return primeCount === target;
                 }
             }
-            return primeCount === target;
         },
 
         finalize: async () => {
@@ -35,7 +34,7 @@ const createPrimeTask = (target) => {
 };
 
 const runIterations = async (task, options, stats, batchStartTime) => {
-    const { minDuration, maxDuration } = options;
+    const { maxIterations, maxDuration } = options;
     let batchIterations = 0;
 
     console.log("Starting new batch of iterations...");
@@ -50,15 +49,14 @@ const runIterations = async (task, options, stats, batchStartTime) => {
             `Iteration ${stats.iterations}, Batch iterations: ${batchIterations}, Elapsed time: ${elapsedTime}ms`
         );
 
-        if (elapsedTime < minDuration) {
-            console.log(`Waiting to meet minDuration of ${minDuration}ms...`);
-            const waitTime = minDuration - elapsedTime;
-            await new Promise((resolve) => setTimeout(resolve, waitTime));
+        if (done) {
+            console.log("Task finished during batch execution.");
+            return true;
         }
 
-        if (done || batchIterations >= options.maxIterations || elapsedTime >= maxDuration) {
-            if (done) console.log("Task finished during batch execution.");
-            return done;
+        if (batchIterations >= maxIterations || elapsedTime >= maxDuration) {
+            console.log("Batch limit reached (iterations or duration).");
+            return false;
         }
     }
 };
@@ -78,14 +76,13 @@ const asyncify = async (task, options) => {
 
     console.log("Asyncify started with options:", options);
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         const timer = setTimeout(() => {
             console.error("Task timed out!");
             reject(new Error("Task timed out"));
         }, timeout);
 
         const execute = async () => {
-            console.log("Executing task iterations...");
             const batchStartTime = Date.now();
             const done = await runIterations(task, options, stats, batchStartTime);
 
@@ -96,8 +93,9 @@ const asyncify = async (task, options) => {
                 return;
             }
 
-            if (stats.iterations < minIterations) {
-                console.log("Not enough iterations, continuing immediately...");
+            const elapsedTime = Date.now() - batchStartTime;
+            if (stats.iterations < minIterations || elapsedTime < minDuration) {
+                console.log("Minimum iterations or duration not yet met, continuing immediately...");
                 setTimeout(execute, 0);
             } else {
                 console.log("Taking a short pause before next batch...");
@@ -105,7 +103,7 @@ const asyncify = async (task, options) => {
             }
         };
 
-        execute();
+        await execute();
     });
 };
 
@@ -116,8 +114,8 @@ const asyncify = async (task, options) => {
         const result = await asyncify(task, {
             minIterations: 5,
             maxIterations: 15,
-            minDuration: 100,
-            maxDuration: 500,
+            minDuration: 1,
+            maxDuration: 7,
             timeout: 10000,
         });
         console.log(result);
